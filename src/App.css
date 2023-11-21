@@ -40,3 +40,14 @@
 .read-the-docs {
   color: #888;
 }
+
+.app {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  grid-template-columns: auto 1fr auto;
+  height: 100vh;
+}
+.main-content {
+  display: flex;
+  flex-direction: row;
+}
