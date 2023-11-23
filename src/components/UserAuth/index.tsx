@@ -219,9 +219,9 @@ function UserAuth() {
                     onChange={handlePasswordChange} 
                     disabled={!isConnected} // Disable if not connected
                 />
-                <button onClick={handleRegister} disabled={(!isConnected && (token === null))}>Register</button>
-                <button onClick={handleLogin} disabled={(!isConnected && (token === null))}>Login</button>
-                <button onClick={handleLogout} disabled={(!isConnected && (token.length > 0))}>Logout</button>
+                <button onClick={handleRegister} disabled={!isConnected || (token == null)}>Register</button>
+                <button onClick={handleLogin} disabled={!isConnected || (token == null)}>Login</button>
+                <button onClick={handleLogout} disabled={(!isConnected || (token.length == 0))}>Logout</button>
             </div>
         </>
     );
