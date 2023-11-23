@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { useGlobalContext } from './GlobalContext';
+import { useGlobalContext } from '../../context/GlobalContext';
+import { useChatContext } from '../../context/ChatContext';
 
 const ConnectionBox: React.FC = () => {
     const { domain, setDomain, port, setPort, isConnected, setIsConnected } = useGlobalContext();
     const [isOnline, setIsOnline] = useState(false);
     const [isChecking, setIsChecking] = useState(false);
     const [disablechecking, setDisablechecking] = useState(false);
+    const [isCheckingThreadRunning, setIsCheckingThreadRunning] = useState(false);
+    const { addMessage } = useChatContext();
 
     const handleDomainChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setDomain(event.target.value);
@@ -16,11 +19,13 @@ const ConnectionBox: React.FC = () => {
     };
 
     const triggerConnectionCheck = async () => {
+
+        //This is here to disable the checking button while the check is running
         if (!disablechecking) {
-            console.log("disablecheking is false");
+            //console.log("disablechecking is false");
             setIsChecking(true);
         }
-        setIsOnline(false);
+        
         try {
             const response = await fetch(`http://${domain}:${port}/ping`, {
                 method: 'GET',
@@ -30,27 +35,63 @@ const ConnectionBox: React.FC = () => {
                 }
             });
 
-            if (response.status === 200) {
+            const data = await response.json();
+
+            if (data.ping) {
                 setIsOnline(true);
-                //console.log('Connected to server');
+                setIsConnected(true); // Set isConnected here
+                // console.log('Connected to server');
                 startCheckThread();
+
+                //checks if the thread is running, if not, send a message
+                if(!isCheckingThreadRunning){
+                    sendConSuccessMsg();
+                }
+
             } else {
                 setIsOnline(false);
-                //console.error('Failed to connect to server');
+                setIsConnected(false); // Set isConnected here
+                // console.error('Failed to connect to server');
                 stopCheckThread();
+                sendErrConMsg();
             }
+
         } catch (error) {
+            //handle net::ERR_CONNECTION_REFUSED error
+            if(error.message === "Failed to fetch") {
+                sendErrConMsg();
+            }
+
             setIsOnline(false);
+            setIsConnected(false);
             //console.error('Failed to connect to server:', error);
             stopCheckThread();
         }
+
+        //This is here to disable the checking button while the check is running
         if(!disablechecking) {
             setIsChecking(false);
         }
+
         setIsConnected(isOnline);
     };
 
-    const [isCheckingThreadRunning, setIsCheckingThreadRunning] = useState(false);
+    const sendErrConMsg = () => {
+            addMessage({
+                username: 'System',
+                message: `Couldn't connect to server ${domain}:${port}`,
+                timestamp: new Date(),
+            });
+    }
+
+    const sendConSuccessMsg = () => {
+            addMessage({
+                username: 'System',
+                message: `Connected to server ${domain}:${port}`,
+                timestamp: new Date(),
+            });
+    }
+
 
     const startCheckThread = () => {
         setDisablechecking(true);
@@ -88,7 +129,7 @@ const ConnectionBox: React.FC = () => {
                 value={port}
                 onChange={handlePortChange}
             />
-            <button onClick={triggerConnectionCheck} disabled={isChecking}>
+            <button onClick={triggerConnectionCheck} disabled={isOnline}>
                 {isChecking ? 'Checking...' : 'Check'}
             </button>
             <p>Status: {isOnline ? 'Online' : 'Offline'}</p>

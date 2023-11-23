@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useGlobalContext } from './GlobalContext';
-import { useChatContext } from './ChatContext';
+import { useGlobalContext } from '../../context/GlobalContext';
+import { useChatContext } from '../../context/ChatContext';
+import styles from './ChatArea.module.css';
 
 const ChatArea = () => {
     const { domain, port, token, isConnected, setIsConnected, user_id } = useGlobalContext();
@@ -105,37 +106,65 @@ const ChatArea = () => {
 const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
         sendMessage();
+        setMessageBox(''); // Clear the message box
         e.preventDefault(); // Prevent form submission
     }
 };
 
 return (
-    <div className="chat-area">
-        {messages.map((message, index) => (
-            <div key={index}>
-                <span>{message.timestamp.toLocaleTimeString()} </span>
-                <span>{message.username}: </span>
-                <span>{message.message}</span>
-            </div>
-        ))}
+<div className={styles["chat-area"]}>
+    <div className={styles["message-list"]}>
+            {messages.map((message, index) => {
+                const isSender = message.username === user_id;
+                const isSystem = message.username === 'System';
+                const messageClass = isSender
+                    ? styles["message-sender"]
+                    : isSystem
+                    ? styles["message-system"]
+                    : styles["message-recipient"];
 
-        <div className="message-input">
-            <input
-                type="text"
-                placeholder="To User"
-                value={toUser}
-                onChange={(e) => setToUser(e.target.value)}
-            />
-            <textarea
-                placeholder="Type a message"
-                value={messageBox}
-                onChange={(e) => setMessageBox(e.target.value)}
-                onKeyPress={handleKeyPress}
-            />
+                return (
+                    <div key={index} className={messageClass}>
+                        {!isSystem && (
+                            <div className={styles["message-header"]}>
+                                <span className={styles["message-username"]}>{message.username}</span>
+                            </div>
+                        )}
+                        <div className={styles["message-body"]}>
+                            <div className={styles["message-content"]}>{message.message}</div>
+                            {!isSystem && (
+                                <span className={styles["message-timestamp"]}>{message.timestamp.toLocaleTimeString()}</span>
+                            )}
+                        </div>
+                    </div>
+                );
+            })}
         </div>
 
-        <button onClick={displayDummyMessage}>Add Dummy Message</button>
+    <div className={styles["message-input"]}>
+        <input
+            type="text"
+            placeholder="Enter recipient's username"
+            value={toUser}
+            onChange={(e) => setToUser(e.target.value)}
+            className={styles.input}
+        />
+        <textarea
+            placeholder="Type your message here"
+            value={messageBox}
+            onChange={(e) => setMessageBox(e.target.value)}
+            onKeyPress={handleKeyPress}
+            className={styles.textarea}
+        />
+        <button
+            className={styles["send-button"]}
+            onClick={sendMessage}
+            disabled={!messageBox || !toUser} // Disable if no message or recipient
+        >Send</button>
     </div>
+
+</div>
+
 );
 };
 

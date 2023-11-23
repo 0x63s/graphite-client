@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useGlobalContext } from './GlobalContext';
+import { useGlobalContext } from '../../context/GlobalContext';
 
 function ContactList() {
     const [contactList, setContactList] = useState([]);

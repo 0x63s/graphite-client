@@ -1,0 +1,153 @@
+/* ChatArea.module.css */
+
+@media (max-width: 600px) {
+    /* Styles for smaller screens */
+    .message-input {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .input,
+    .textarea,
+    .send-button,
+    .dummy-button {
+        width: 100%;
+        margin: 5px 0; /* Adjust margin for smaller screens */
+    }
+}
+
+/* Dominant color (60%) - light grey for background */
+.chat-area {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: #f2f2f2; /* Light grey */
+    font-family: 'Arial', sans-serif; /* Modern font */
+}
+
+/* Secondary color (30%) - darker shade for messages */
+.message-list {
+    min-height: 50vh; /* Fixed height */
+    overflow-y: auto; /* Make it scrollable */
+    max-height: 50vh; /* Max height if it's smaller than 50vh */
+    flex: 1;
+    padding: 10px;
+    scrollbar-width: thin;
+    scrollbar-color: #d1d1d1 #f2f2f2;
+}
+
+/* Styles for recipient messages */
+.message-recipient {
+    margin-bottom: 10px;
+    position: relative;
+    padding: 10px;
+    background-color: #d1d1d1; /* Medium grey */
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Soft shadow for depth */
+}
+
+/* Styles for sender messages */
+.message-sender {
+    margin-bottom: 10px;
+    position: relative;
+    padding: 10px;
+    background-color: #ace1af; /* Light green, for example */
+    border-radius: 8px;
+    margin-left: auto; /* Align to right */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Styles for system messages */
+.message-system {
+    margin-bottom: 10px;
+    position: relative;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+    color: black; /* Default for info */
+}
+
+.message-system.error {
+    color: red; /* If it's an error message */
+}
+
+/* Accent color (10%) - blue for buttons and highlights */
+.message-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 5px;
+}
+
+.message-timestamp {
+    position: absolute;
+    right: 10px; /* Position to the right */
+    bottom: 10px; /* Position at the bottom */
+    font-size: 10pt; /* Smaller font size */
+    color: #666666;
+}
+
+.message-username {
+    font-weight: bold;
+    color: #007bff; /* Blue */
+    margin-bottom: 2px; /* Spacing between username and message */
+}
+
+.message-content {
+    color: #333333;
+    font-size: 14px;
+    line-height: 1.5;
+    text-align: left; /* Align text to left */
+}
+
+.message-input {
+    color: #666666;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #ffffff;
+    border-top: 1px solid #ccc; /* Separator line */
+}
+
+.input,
+.textarea {
+    color: #666666;
+    flex: 1;
+    padding: 5px;
+    margin-right: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #ffffff;
+    font-size: 14px;
+}
+
+.send-button,
+.dummy-button {
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: #007bff; /* Blue */
+    color: #ffffff;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* Hover effect for buttons */
+.send-button:hover,
+.dummy-button:hover {
+    background-color: #0056b3; /* Darker blue */
+}
+
+/* Custom scrollbar styling */
+.message-list::-webkit-scrollbar {
+    width: 8px;
+}
+
+.message-list::-webkit-scrollbar-track {
+    background: #f2f2f2;
+}
+
+.message-list::-webkit-scrollbar-thumb {
+    background-color: #d1d1d1;
+    border-radius: 20px;
+}
