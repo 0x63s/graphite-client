@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useGlobalContext } from './GlobalContext';
 
 function UserAuth() {
-    const { domain, port } = useGlobalContext();
+    const { domain, port, isConnected, token, setToken, user_id, setUser_id } = useGlobalContext();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
@@ -15,6 +15,10 @@ function UserAuth() {
     };
 
     const handleRegister = async () => {
+        if(!isConnected) {
+            console.log("Not connected");
+            return;
+        }
         const response = await fetch(`http://${domain}:${port}/user/register`, {
             method: 'POST',
             headers: {
@@ -34,7 +38,15 @@ function UserAuth() {
         }
     };
 
+    //function to enable the user to login
+    
+
     const handleLogin = async () => {
+        if(!isConnected) {
+            console.log("Not connected");
+            return;
+        }
+        console.log("Logging in");
             const response = await fetch(`http://${domain}:${port}/user/login`, {
                 method: 'POST',
                 headers: {
@@ -48,7 +60,9 @@ function UserAuth() {
 
             if (response.ok) {
                 const data = await response.json();
-                document.cookie = `token=${data.token}`;
+                setToken(data.token);
+                setUser_id(username);
+                console.log('Login successful:', data.token);
             } else {
                 console.error('Login failed');
             }
@@ -58,10 +72,22 @@ function UserAuth() {
     return (
         <>
             <div className="user-auth">
-                <input type="text" placeholder="Username" value={username} onChange={handleUsernameChange} />
-                <input type="password" placeholder="Password" value={password} onChange={handlePasswordChange} />
-                <button onClick={handleRegister}>Register</button>
-                <button onClick={handleLogin}>Login</button>
+            <input 
+                    type="text" 
+                    placeholder="Username" 
+                    value={username} 
+                    onChange={handleUsernameChange} 
+                    disabled={!isConnected} // Disable if not connected
+                />
+                <input 
+                    type="password" 
+                    placeholder="Password" 
+                    value={password} 
+                    onChange={handlePasswordChange} 
+                    disabled={!isConnected} // Disable if not connected
+                />
+                <button onClick={handleRegister} disabled={!isConnected}>Register</button>
+                <button onClick={handleLogin} disabled={!isConnected}>Login</button>
             </div>
         </>
     );

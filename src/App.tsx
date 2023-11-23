@@ -3,6 +3,9 @@ import './App.css';
 import UserAuth from './UserAuth';
 import ConnectionBox from './ConnectionBox';
 import { GlobalProvider } from './GlobalContext';
+import ChatArea from './ChatArea';
+import { ChatProvider } from './ChatContext';
+//import ContactList from './ContactList';
 
 function App() {
   return (
@@ -13,6 +16,13 @@ function App() {
           <UserAuth />
           {/* Other components like ChatArea, ContactList, etc. can be added here as needed */}
         </header>
+
+        {// <ContactList />
+        }
+        <ChatProvider>
+          
+        <ChatArea />
+        </ChatProvider>
       </div>
     </GlobalProvider>
   );
