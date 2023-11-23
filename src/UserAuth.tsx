@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { useGlobalContext } from './GlobalContext';
+import { useChatContext } from './ChatContext';
 
 function UserAuth() {
     const { domain, port, isConnected, token, setToken, user_id, setUser_id } = useGlobalContext();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const { addMessage } = useChatContext();
 
     const handleUsernameChange = (event) => {
         setUsername(event.target.value);
@@ -33,8 +35,18 @@ function UserAuth() {
         if (response.ok) {
             const data = await response.json();
             console.log('Registration successful:', data.username);
+            addMessage({
+                username: 'System',
+                message: `Registration successful: ${data.username}`,
+                timestamp: new Date(),
+            });
         } else {
             console.error('Registration failed');
+            addMessage({
+                username: 'System',
+                message: 'Registration failed',
+                timestamp: new Date(),
+            });
         }
     };
 
@@ -63,8 +75,18 @@ function UserAuth() {
                 setToken(data.token);
                 setUser_id(username);
                 console.log('Login successful:', data.token);
+                addMessage({
+                    username: 'System',
+                    message: `Login successful: ${data.token}`,
+                    timestamp: new Date(),
+                });
             } else {
                 console.error('Login failed');
+                addMessage({
+                    username: 'System',
+                    message: 'Login failed',
+                    timestamp: new Date(),
+                });
             }
         };
 

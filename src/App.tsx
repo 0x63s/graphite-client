@@ -13,13 +13,13 @@ function App() {
       <div className="App">
         <header className="App-header">
           <ConnectionBox />
-          <UserAuth />
           {/* Other components like ChatArea, ContactList, etc. can be added here as needed */}
         </header>
 
         {// <ContactList />
         }
         <ChatProvider>
+          <UserAuth />
           
         <ChatArea />
         </ChatProvider>
