@@ -123,6 +123,9 @@ const ChatArea = () => {
     }
 };
 
+
+
+
 const isUserOnline = async (username: string) => {
     try {
         const response = await fetch(`http://${domain}:${port}/user/online`, {
@@ -163,8 +166,8 @@ useEffect(() => {
 
 
 return (
-<div className={styles["chat-area"]}>
-    <div className={styles["message-list"]} ref={messageListRef}>
+    <div className={styles["chat-area"]}>
+  <div className={styles["message-list"]} ref={messageListRef}>
             {messages.map((message, index) => {
                 const isSender = message.username === user_id;
                 const isSystem = message.username === 'System';
@@ -197,33 +200,34 @@ return (
                 );  
             })}
         </div>
-
-    <div className={styles["message-input"]}>
+      <div className={styles["message-input"]}>
         <input
-            type="text"
-            placeholder="Enter recipient's username"
-            value={toUser}
-            onChange={(e) => setToUser(e.target.value)}
-            className={styles.input}
+          type="text"
+          placeholder="Enter recipient's username"
+          value={toUser}
+          onChange={(e) => setToUser(e.target.value)}
+          className={styles.input}
+          disabled={!isConnected || token === ''} // Disable if not connected or token is empty
         />
         <input
-            type="text"
-            placeholder="Type your message here"
-            value={messageBox}
-            onChange={(e) => setMessageBox(e.target.value)}
-            onKeyPress={handleKeyPress}
-            className={styles.textarea}
+          type="text"
+          placeholder="Type your message here"
+          value={messageBox}
+          onChange={(e) => setMessageBox(e.target.value)}
+          onKeyPress={handleKeyPress}
+          className={styles.textarea}
+          disabled={!isConnected || token === ''} // Disable if not connected or token is empty
         />
         <button
-            className={styles["send-button"]}
-            onClick={sendMessage}
-            disabled={!messageBox || !toUser} // Disable if no message or recipient
-        >Send</button>
+          className={styles["send-button"]}
+          onClick={sendMessage}
+          disabled={!isConnected || token === '' || !messageBox || !toUser} // Disable if not connected, token is empty, or no message or recipient
+        >
+          Send
+        </button>
+      </div>
     </div>
-
-</div>
-
-);
-};
+  );
+  };
 
 export default ChatArea;

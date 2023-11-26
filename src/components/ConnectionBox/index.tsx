@@ -90,6 +90,11 @@ const ConnectionBox: React.FC = () => {
                 message: `Connected to server ${domain}:${port}`,
                 timestamp: new Date(),
             });
+            addMessage({
+                username: 'System',
+                message: `Please wait while we check if the server is online *badum tss*`,
+                timestamp: new Date(),
+            });
     }
 
 

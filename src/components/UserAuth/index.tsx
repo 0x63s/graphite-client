@@ -139,10 +139,10 @@ function UserAuth() {
       if (data.token != null) {
         setToken(data.token);
         setUser_id(username);
-        console.log('Login successful:', data.token);
+        console.log('Login successful!');
         addMessage({
           username: 'System',
-          message: `Login successful: ${data.token}`,
+          message: `Login successful`,
           timestamp: new Date(),
         });
         setIsLoggedIn(true); // Set the login status to true
@@ -193,10 +193,10 @@ function UserAuth() {
       if (data.logout) {
         setToken('');
         setUser_id('');
-        console.log('Logout successful:', data.logout);
+        console.log('Logout successful)');
         addMessage({
           username: 'System',
-          message: `Logout successful: ${data.logout}`,
+          message: `Logout successful`,
           timestamp: new Date(),
         });
         setIsLoggedIn(false); // Set the login status to false

@@ -16,6 +16,19 @@
     }
 }
 
+
+.input:disabled,
+.textarea:disabled,
+.send-button:disabled {
+    opacity: 0.7;
+    pointer-events: none;
+    background-color: #ccc; 
+    cursor: not-allowed; 
+    color: #666666; 
+    border: 1px solid #ccc; /* Adjust border for disabled input fields */
+}
+
+
 /* Dominant color (60%) - light grey for background */
 .chat-area {
     display: flex;
