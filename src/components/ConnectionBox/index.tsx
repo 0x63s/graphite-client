@@ -92,7 +92,7 @@ const ConnectionBox: React.FC = () => {
             });
             addMessage({
                 username: 'System',
-                message: `Please wait while we check if the server is online *badum tss*`,
+                message: `Please wait a moment...`,
                 timestamp: new Date(),
             });
     }
