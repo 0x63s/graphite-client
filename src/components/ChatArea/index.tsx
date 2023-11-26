@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useGlobalContext } from '../../context/GlobalContext';
 import { useChatContext } from '../../context/ChatContext';
 import styles from './ChatArea.module.css';
@@ -8,6 +8,7 @@ const ChatArea = () => {
     const { messages, addMessage } = useChatContext();
     const [messageBox, setMessageBox] = useState(''); // State for the messageBox textbox
     const [toUser, setToUser] = useState(''); // State for the toUser textbox
+    const messageListRef = useRef(null);
 
     useEffect(() => {
         const fetchMessages = async () => {
@@ -27,7 +28,7 @@ const ChatArea = () => {
                     //}
                     
                     //print out the data
-                    //console.log("Polling data: ", data );
+                    console.log("Polling data: ", data );
 
 
                     // Add new messages to the global state using addMessage
@@ -39,7 +40,7 @@ const ChatArea = () => {
                             timestamp: new Date(),
                         });
                         //add the new messages to the conversation list
-                        
+
                     });
                 } else {
                     //console.log('Not connected');
@@ -67,6 +68,24 @@ const ChatArea = () => {
 
    // Function to send a message
    const sendMessage = async () => {
+    if(toUser === user_id) {
+        console.log("You cannot send message to yourself");
+        addMessage({
+            username: 'System',
+            message: 'You cannot send message to yourself',
+            timestamp: new Date(),
+        });
+        return;
+    }
+    if(await isUserOnline(toUser) == false) {
+        console.log("User is not online");
+        addMessage({
+            username: 'System',
+            message: 'User is not online',
+            timestamp: new Date(),
+        });
+        return;
+    }
     if (toUser && messageBox) {
         //if toUser contains spaces, then return
         if(toUser.includes(" ")) {
@@ -104,6 +123,28 @@ const ChatArea = () => {
     }
 };
 
+const isUserOnline = async (username: string) => {
+    try {
+        const response = await fetch(`http://${domain}:${port}/user/online`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ token, username }),
+        });
+        const data = await response.json();
+        if (data.Error) {
+            console.error("Error:", data.Error);
+            return false;
+        } else {
+            return data.online;
+        }
+    } catch (error) {
+        console.error("Error:", error);
+        return false;
+    }
+};
+
 // Handle Enter key in messageBox
 const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
@@ -113,17 +154,31 @@ const handleKeyPress = (e) => {
     }
 };
 
+useEffect(() => {
+    // Scroll to the bottom of the message list
+    if (messageListRef.current) {
+        messageListRef.current.scrollTop = messageListRef.current.scrollHeight;
+    }
+}, [messages]);
+
+
 return (
 <div className={styles["chat-area"]}>
-    <div className={styles["message-list"]}>
+    <div className={styles["message-list"]} ref={messageListRef}>
             {messages.map((message, index) => {
                 const isSender = message.username === user_id;
                 const isSystem = message.username === 'System';
+                const isRecipient = !isSender && !isSystem;
                 const messageClass = isSender
                     ? styles["message-sender"]
                     : isSystem
                     ? styles["message-system"]
                     : styles["message-recipient"];
+                const messageHeader = isRecipient ? (
+                    <div className={styles["message-header"]}>
+                        <span className={styles["message-username"]}>{message.username}</span>
+                    </div>
+                ) : null;
 
                 return (
                     <div key={index} className={messageClass}>
@@ -151,7 +206,8 @@ return (
             onChange={(e) => setToUser(e.target.value)}
             className={styles.input}
         />
-        <textarea
+        <input
+            type="text"
             placeholder="Type your message here"
             value={messageBox}
             onChange={(e) => setMessageBox(e.target.value)}

@@ -6,27 +6,32 @@ import { GlobalProvider } from "./context/GlobalContext";
 import ChatArea from "./components/ChatArea";
 import { ChatProvider } from "./context/ChatContext";
 import ContactList from "./components/ContactList";
+import { ReactNotifications } from 'react-notifications-component';
+import 'react-notifications-component/dist/theme.css'
+
 //import ContactList from './ContactList';
 
 function App() {
   return (
-    <GlobalProvider>
-      <div className="App">
+      <div className="App">     
         <header className="App-header">
           {/* Other components like ChatArea, ContactList, etc. can be added here as needed */}
         </header>
 
-        {
-          // <ContactList />
-        }
+
+        <GlobalProvider>
+          
+      <ReactNotifications />   
         <ChatProvider>
-          <ContactList />
+          {
+            //<ContactList />
+          }
           <ConnectionBox />
           <UserAuth />
           <ChatArea />
         </ChatProvider>
-      </div>
     </GlobalProvider>
+      </div>
   );
 }
 

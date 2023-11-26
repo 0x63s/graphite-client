@@ -48,7 +48,8 @@ export const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({ childr
                 user_id,
                 setUser_id,
                 conversations,
-                setConversations,
+                setConversations
+            
             }}
         >
             {children}
@@ -78,7 +79,6 @@ const addMessageToConversation = (conversationName: string, message: Message, co
         });
     }
 }
-
 
 export const useGlobalContext = () => {
     const context = useContext(GlobalContext);

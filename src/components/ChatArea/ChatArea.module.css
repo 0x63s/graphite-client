@@ -62,7 +62,7 @@
     margin-bottom: 10px;
     position: relative;
     padding: 10px;
-    text-align: center;
+    text-align: center !important;
     font-weight: bold;
     color: black; /* Default for info */
 }
@@ -91,13 +91,13 @@
     font-weight: bold;
     color: #007bff; /* Blue */
     margin-bottom: 2px; /* Spacing between username and message */
+    text-align: left;
 }
 
 .message-content {
     color: #333333;
     font-size: 14px;
-    line-height: 1.5;
-    text-align: left; /* Align text to left */
+    text-align: left;
 }
 
 .message-input {
