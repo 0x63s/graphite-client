@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { useGlobalContext } from '../../context/GlobalContext';
+import styles from "./ContactList.module.css";
 
 function ContactList() {
     const [contactList, setContactList] = useState([]);
-    const [selectedContactId, setSelectedContactId] = useState(null); // New state for tracking selected contact
-    const { domain, port, isConnected, token } = useGlobalContext();
+    const [selectedContactIndex, setSelectedContactIndex] = useState(); // New state for tracking selected contact
+    const { domain, port, isConnected, token, conversations } = useGlobalContext();
 
     useEffect(() => {
         if (isConnected && token !== "") {
@@ -23,33 +24,29 @@ function ContactList() {
         }
     }, [isConnected, token, domain, port]);
 
-    const handleRadioChange = (contactId) => {
-        setSelectedContactId(contactId);
-    };
-
-    const addDummyContact = () => {
-        const newContact = { id: 1, name: "Dummy" };
-        setContactList(prevContacts => [...prevContacts, newContact]);
+    const handleRadioChange = (index) => {
+        //setSelectedContactIndex(index);
     };
 
     return (
-        <div className="contact-list">
+        <div className={styles["contact-list"]}> {/* Use styles object for class */}
             <ul>
-                {contactList.map((contact) => (
-                    <li key={contact.id}>
-                        <label>
-                            <input
-                                type="radio"
-                                value={contact.id}
-                                checked={selectedContactId === contact.id}
-                                onChange={() => handleRadioChange(contact.id)}
-                            />
-                            {contact.name}
+                {conversations.map((conversation, index) => (
+                    <li key={index} className={styles["contact-item"]}> {/* Add class for li if needed */}
+                        <input
+                            id={`contact-${index}`} // Unique ID for the input
+                            type="radio"
+                            name="contact"
+                            value={index}
+                            onChange={() => handleRadioChange(index)}
+                            className={styles["contact-radio"]} // Use styles object for class
+                        />
+                        <label htmlFor={`contact-${index}`} className={styles["contact-label"]}> {/* Use styles object for class */}
+                            {conversation.name}
                         </label>
                     </li>
                 ))}
             </ul>
-            <button onClick={addDummyContact}>Add dummy contact</button>
         </div>
     );
 }

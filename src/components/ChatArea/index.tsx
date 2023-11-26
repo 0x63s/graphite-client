@@ -38,6 +38,8 @@ const ChatArea = () => {
                             message: text,
                             timestamp: new Date(),
                         });
+                        //add the new messages to the conversation list
+                        
                     });
                 } else {
                     //console.log('Not connected');
@@ -137,7 +139,7 @@ return (
                             )}
                         </div>
                     </div>
-                );
+                );  
             })}
         </div>
 

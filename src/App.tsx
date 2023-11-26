@@ -5,6 +5,7 @@ import ConnectionBox from "./components/ConnectionBox";
 import { GlobalProvider } from "./context/GlobalContext";
 import ChatArea from "./components/ChatArea";
 import { ChatProvider } from "./context/ChatContext";
+import ContactList from "./components/ContactList";
 //import ContactList from './ContactList';
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
           // <ContactList />
         }
         <ChatProvider>
+          <ContactList />
           <ConnectionBox />
           <UserAuth />
           <ChatArea />
