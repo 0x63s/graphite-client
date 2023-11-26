@@ -5,8 +5,7 @@ Application's front-end on one domain had to connect with a back-end server on a
 ## Features
 
 - **User Authentication:** Secure user authentication system to register, log in, and log out.
-- **Real-time Chat:** Join chatrooms and engage in real-time conversations with other users.
-- **System Messages:** Receive system messages, such as login/logout notifications and errors.
+- **Client Accesibility:** Client can be accessed from multiple servers.
 - **User Interface:** Simple and intuitive user interface for ease of use.
 
 ## Getting Started
