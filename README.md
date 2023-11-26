@@ -1,30 +1,45 @@
-# React + TypeScript + Vite
+# Graphite Client
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Application's front-end on one domain had to connect with a back-end server on a different domain or port. Without proper handling, this led to cross-origin request blocks and functionality problems for users. This is why we had to modify the server's code in order to enable CORS requests
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+...
 
-## Expanding the ESLint configuration
+## Getting Started
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+These instructions will help you set up and run the Graphite client on your local machine.
 
-- Configure the top-level `parserOptions` property like this:
+### Installation
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+1. Clone the repository:
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+    ```bash
+    git clone https://github.com/0x63s/graphite-client.git
+    ```
+
+2. Navigate to the project directory:
+
+    ```bash
+    cd graphite-client
+    ```
+
+3. Install dependencies:
+
+    ```bash
+    npm install
+    npm fund
+    ```
+
+### Running the Client
+
+1. Start the development server:
+
+    ```bash
+    npm run dev
+    ```
+
+2. Open your browser and navigate to [http://localhost:5173](http://localhost:5173).
+
+3. Interact with the Graphite client.
+
