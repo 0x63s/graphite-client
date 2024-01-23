@@ -2,7 +2,7 @@ FROM node:20.10.0
 WORKDIR /usr/src/app
 
 # Clone graphite-client from GitHub
-RUN git clone https://github.com/0x63s/graphite-client.git .
+RUN git clone -b docker https://github.com/0x63s/graphite-client.git .
 
 # Install app dependencies + audit
 RUN npm install
